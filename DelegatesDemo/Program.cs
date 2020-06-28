@@ -13,8 +13,21 @@ namespace DelegatesDemo
         static void Main(string[] args)
         {
             PopulatedCartWtithDemoData();
-            Console.WriteLine($"The total for the cart is {cart.GenerateTotal(SubTotalAlert, CalculateDiscount):C2}");
+            Console.WriteLine($"The total for the cart is {cart.GenerateTotal(SubTotalAlert, CalculateDiscount, AlertUser):C2}");
             Console.WriteLine();
+            decimal total = cart.GenerateTotal((subtotal) => Console.WriteLine($"The subtotal cart 2 is {subtotal:C2}"), (products, subtotal)=> {
+                if (products.Count > 3)
+                {
+                    return subtotal * .93M;
+                }
+                else
+                {
+                    return subtotal;
+                }
+            }, (message)=>Console.WriteLine($"Cart 2 Alert {message}"));
+            Console.WriteLine($"Cart 2 totla is {total}:C2") ;
+            Console.WriteLine();
+
             Console.WriteLine("Please enter any key to exit the application...");
             Console.Read();
         }
@@ -31,6 +44,10 @@ namespace DelegatesDemo
             }
             return subTotal;
 
+        }
+        private static void AlertUser(string message)
+        {
+            Console.WriteLine(message);
         }
         private static void PopulatedCartWtithDemoData()
         {
