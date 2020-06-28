@@ -13,15 +13,24 @@ namespace DelegatesDemo
         static void Main(string[] args)
         {
             PopulatedCartWtithDemoData();
-            Console.WriteLine($"The total for the cart is {cart.GenerateTotal(SubTotalAlert):C2}");
+            Console.WriteLine($"The total for the cart is {cart.GenerateTotal(SubTotalAlert, CalculateDiscount):C2}");
             Console.WriteLine();
             Console.WriteLine("Please enter any key to exit the application...");
             Console.Read();
         }
         public static  ShoppingCartModel cart = new ShoppingCartModel();
-        public static void SubTotalAlert(decimal subTotal)
+        private static void SubTotalAlert(decimal subTotal)
         {
             Console.WriteLine($"The sub total is {subTotal}:C2");
+        }
+        private static decimal CalculateDiscount(List<ProductModel> items, decimal subTotal)
+        {
+            if (subTotal>100)
+            {
+                return subTotal * 0.90M;
+            }
+            return subTotal;
+
         }
         private static void PopulatedCartWtithDemoData()
         {
